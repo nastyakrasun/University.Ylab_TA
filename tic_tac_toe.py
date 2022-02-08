@@ -1,9 +1,11 @@
+import random
+
 # глобальные константы
 CROSS = "X"
 NOUGHT = "O"
 EMPTY = " "
 LOCK = "LOCK"
-CELLS_TOTAL = 26
+CELLS_TOTAL = 101
 
 
 def display_instructions():
@@ -17,17 +19,27 @@ def display_instructions():
         Чтобы сделать ход, введи число от 1 до 25. 
         Числа однозначно соотвествуют полям доски - так, как показано ниже:
 
-                           1 | 2 | 3 | 4 | 5
-                           ------------------
-                           6 | 7 | 8 | 9 | 10
-                           ------------------
-                           11| 12| 13| 14| 15
-                           ------------------
-                           16| 17| 18| 19| 20
-                           ------------------
-                           21| 22| 23| 24| 25
+                           1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10                          
+                           --------------------------------------
+                           11| 12| 13| 14| 15| 16| 17| 18| 19| 20
+                           --------------------------------------
+                           21| 22| 23| 24| 25| 26| 27| 28| 29| 30
+                           --------------------------------------
+                           31| 32| 33| 34| 35| 36| 37| 38| 39| 40
+                           --------------------------------------
+                           41| 42| 43| 44| 45| 46| 47| 48| 49| 50
+                           --------------------------------------
+                           51| 52| 53| 54| 55| 56| 57| 58| 59| 60
+                           --------------------------------------
+                           61| 62| 63| 64| 65| 66| 67| 68| 69| 70
+                           --------------------------------------
+                           71| 72| 73| 74| 75| 76| 77| 78| 79| 80
+                           --------------------------------------
+                           81| 82| 83| 84| 85| 86| 87| 88| 89| 90
+                           --------------------------------------
+                           91| 92| 93| 94| 95| 96| 97| 98| 99|100
                            
-                            Интересной игры!\n
+                                    Интересной игры!\n
        """
     )
 
@@ -92,11 +104,13 @@ def display_board(board):
     """
     Отрисовывается игровая доска на экране
     """
-    print("---------------------")
-    for i in range(5):
-        print("|", board[1 + i * 5], "|", board[2 + i * 5], "|", board[3 + i * 5], "|", board[4 + i * 5], "|",
-              board[5 + i * 5], "|")
-        print("---------------------")
+    print("----------------------------------------")
+    for i in range(10):
+        print("|", board[1 + i * 10], "|", board[2 + i * 10], "|", board[3 + i * 10], "|", board[4 + i * 10], "|",
+              board[5 + i * 10], "|", board[6 + i * 10], "|", board[7 + i * 10], "|", board[8 + i * 10], "|",
+              board[9 + i * 10], "|",
+              board[10 + i * 10], "|")
+        print("----------------------------------------")
 
 
 def open_moves(board):
@@ -114,18 +128,20 @@ def strike(board):
     """
     Определяется поражение в игре
     """
-    WAYS_TO_STRIKE = ((1, 2, 3, 4, 5),
-                      (6, 7, 8, 9, 10),
-                      (11, 12, 13, 14, 15),
-                      (16, 17, 18, 19, 20),
-                      (21, 22, 23, 24, 25),
-                      (1, 7, 13, 19, 25),
-                      (5, 9, 13, 17, 21),
-                      (1, 6, 11, 16, 21),
-                      (2, 7, 12, 17, 22),
-                      (3, 8, 13, 18, 23),
-                      (4, 9, 14, 19, 24),
-                      (5, 10, 15, 20, 25))
+    WAYS_TO_STRIKE = []
+    for i in range(1, 7):
+        WAYS_TO_STRIKE.append([c + i for c in range(0, 5)])
+        WAYS_TO_STRIKE.append([c + i for c in range(10, 15)])
+        WAYS_TO_STRIKE.append([c + i for c in range(20, 25)])
+        WAYS_TO_STRIKE.append([c + i for c in range(30, 35)])
+        WAYS_TO_STRIKE.append([c + i for c in range(40, 45)])
+        WAYS_TO_STRIKE.append([c + i for c in range(50, 55)])
+        WAYS_TO_STRIKE.append([c + i for c in range(60, 65)])
+        WAYS_TO_STRIKE.append([c + i for c in range(70, 75)])
+        WAYS_TO_STRIKE.append([c + i for c in range(80, 85)])
+        WAYS_TO_STRIKE.append([c + i for c in range(90, 95)])
+    for k in range(1, 61):
+        WAYS_TO_STRIKE.append([k + j for j in range(0, 50, 10)])
 
     for row in WAYS_TO_STRIKE:
         if board[row[0]] == board[row[1]] == board[row[2]] == board[row[3]] == board[row[4]] != EMPTY:
@@ -143,7 +159,7 @@ def human_move(board, human):
     open_move = open_moves(board)
     move = None
     while move not in open_move:
-        move = ask_number("Твой ход. Выбери одно из полей (1 - 25): ", 1, CELLS_TOTAL)
+        move = ask_number("Твой ход. Выбери одно из полей (1 - 100): ", 1, CELLS_TOTAL)
         if move not in open_move:
             print("\nЭто поле уже занято. Выбери другое.\n")
     print("Ход принят.")
@@ -156,10 +172,13 @@ def computer_move(board, computer, human):
     """
     # список ходов
     MOVES_AVAILABLE = [11, 20, 22, 2, 17, 8, 10, 25, 7, 19, 13, 14, 18, 4, 23, 5, 6, 15, 12, 1, 16, 21, 24, 3, 9]
+    # random.randint(1,27)
 
     print("Ход компьютера. Поле номер ", end=" ")
 
-    for move in MOVES_AVAILABLE:
+    # for move in MOVES_AVAILABLE:
+    while True:
+        move = random.randint(1, 101)
         if move in open_moves(board):
             print(move)
             return move
