@@ -130,18 +130,10 @@ def strike(board):
     """
     WAYS_TO_STRIKE = []
     for i in range(1, 7):
-        WAYS_TO_STRIKE.append([c + i for c in range(0, 5)])
-        WAYS_TO_STRIKE.append([c + i for c in range(10, 15)])
-        WAYS_TO_STRIKE.append([c + i for c in range(20, 25)])
-        WAYS_TO_STRIKE.append([c + i for c in range(30, 35)])
-        WAYS_TO_STRIKE.append([c + i for c in range(40, 45)])
-        WAYS_TO_STRIKE.append([c + i for c in range(50, 55)])
-        WAYS_TO_STRIKE.append([c + i for c in range(60, 65)])
-        WAYS_TO_STRIKE.append([c + i for c in range(70, 75)])
-        WAYS_TO_STRIKE.append([c + i for c in range(80, 85)])
-        WAYS_TO_STRIKE.append([c + i for c in range(90, 95)])
-    for k in range(1, 61):
-        WAYS_TO_STRIKE.append([k + j for j in range(0, 50, 10)])
+        for k in range(0, 90, 10):
+            WAYS_TO_STRIKE.append([c + i for c in range(k, k + 5)])
+    for m in range(1, 61):
+        WAYS_TO_STRIKE.append([m + j for j in range(0, 50, 10)])
 
     for row in WAYS_TO_STRIKE:
         if board[row[0]] == board[row[1]] == board[row[2]] == board[row[3]] == board[row[4]] != EMPTY:
@@ -149,7 +141,6 @@ def strike(board):
             return strike_
         if EMPTY not in board:
             return LOCK
-    # return None
 
 
 def human_move(board, human):
@@ -170,13 +161,8 @@ def computer_move(board, computer, human):
     """
     Определяется ход компьютера
     """
-    # список ходов
-    MOVES_AVAILABLE = [11, 20, 22, 2, 17, 8, 10, 25, 7, 19, 13, 14, 18, 4, 23, 5, 6, 15, 12, 1, 16, 21, 24, 3, 9]
-    # random.randint(1,27)
-
     print("Ход компьютера. Поле номер ", end=" ")
 
-    # for move in MOVES_AVAILABLE:
     while True:
         move = random.randint(1, 101)
         if move in open_moves(board):
@@ -188,10 +174,7 @@ def next_turn(turn):
     """
     Осуществляется переход хода
     """
-    if turn == CROSS:
-        return NOUGHT
-    else:
-        return CROSS
+    return NOUGHT if turn == CROSS else CROSS
 
 
 def find_striker(striker, computer, human):
