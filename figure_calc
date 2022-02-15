@@ -1,0 +1,102 @@
+# калькулятор фигур
+import tkinter as tk
+from tkinter import messagebox
+
+
+def get_entry():
+    value = task.get()
+    task.insert(0, value)
+    if value:
+        print(value)
+    else:
+        print('empty entry')
+
+
+def figure():
+    messagebox.showinfo('Фигура', 'введите длины сторон через запятую')
+
+
+def get_figure(name):
+    return tk.Button(text=name, bd=5, font=1, command=figure)
+
+
+def calculate_result():
+    value = task.get()
+    a = [int(v) for v in value.split(',')]
+    if len(a) == 1:
+        result = a[0] ** 2
+    elif len(a) == 2:
+        result = a[0] * a[1]
+    else:
+        result = 0
+    print(result)
+
+
+def get_result(name):
+    return tk.Button(text=name, bd=5, command=calculate_result)
+
+
+def get_params():
+    messagebox.showinfo('следующий шаг', 'выберите что нужно найти')
+    value = task.get()
+    if value:
+        a = [int(v) for v in value.split(',')]
+        print(a)
+    else:
+        print('empty entry')
+
+
+def make_params_button():
+    return tk.Button(text='получить параметры', bd=5, font=15, bg='green', command=get_params)
+
+
+def make_result_button():
+    return tk.Button(text='получить результат', bd=5, font=15, bg='green', command=get_result)
+
+
+# проверка на нажатие клавиши
+def press_key(event):
+    pass
+
+
+root = tk.Tk()
+root.title('Графическое сопровождение кода')
+root.geometry("350x280+500+100")
+photo = tk.PhotoImage(file='geom.png')
+root.iconphoto(False, photo)
+root.config(bg='#708090')
+
+# привязываем метод-обработчик события к окну
+root.bind('<Key>', press_key)
+
+# создадим переменную с экземпляром, располагающимся в нашем окне
+task = tk.Entry(root, bd=5)
+# расположим переменную в окне при пом метода .grid()
+task.grid(row=0, column=0, columnspan=3, stick='wens', padx=10)
+root.grid_columnconfigure(0, minsize=250)
+root.grid_rowconfigure(0, minsize=50)
+# создадим несколько кнопок и сразу запакуем их при пом .grid()
+# за расстояние между кнопками отв атрибуты padx, pady
+# за растяжение кнопок - stick
+# ширина рамки кнопки - к Button параметр bd
+get_figure('треугольник').grid(row=1, column=0, stick='wens', padx=7, pady=5)
+get_figure('квадрат').grid(row=1, column=1, stick='wens', padx=5, pady=5)
+get_figure('круг').grid(row=1, column=2, stick='wens', padx=5, pady=5)
+# tk.Button(text='прямоугольник', bd=5).grid(row=1, column=3, stick='wens', padx=5, pady=5)
+
+get_result('площадь').grid(row=3, column=0, stick='wens', padx=7, pady=5)
+get_result('периметр').grid(row=3, column=1, stick='wens', padx=5, pady=5)
+get_result('диагональ/\n/высота').grid(row=3, column=2, stick='wens', padx=5, pady=5)
+# tk.Button(text='объём', bd=5).grid(row=2, column=3, stick='wens', padx=5, pady=5)
+
+make_params_button().grid(row=2, column=0, columnspan=3, stick='wens', padx=7, pady=5)
+make_result_button().grid(row=4, column=0, columnspan=3, stick='wens', padx=7, pady=5)
+
+# зададим мин размер колонки с пом grid_columnconfigure
+root.grid_columnconfigure(0, minsize=50)
+root.grid_columnconfigure(1, minsize=50)
+root.grid_columnconfigure(2, minsize=50)
+root.grid_columnconfigure(3, minsize=50)
+
+
+root.mainloop()
