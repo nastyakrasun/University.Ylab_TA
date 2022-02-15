@@ -1,0 +1,177 @@
+from math import sqrt, pi
+
+
+class Shape:
+    _title = 'Фигура'
+
+    def area(self):
+        pass
+
+
+class Triangle(Shape):
+    _title = 'Треугольник'
+
+    def __init__(self, a: int, b: int, c: int):
+        super().__init__()
+        self.a = a
+        self.b = b
+        self.c = c
+
+    @classmethod
+    def from_string(cls, string_of_sides):
+        a, b, c = map(int, string_of_sides.split(','))
+        triangle_1 = cls(a, b, c)
+        return triangle_1
+
+    def area(self):
+        p = (self.a + self.b + self.c) / 2
+        return round(sqrt(p * (p - self.a) * (p - self.b) * (p - self.c)), 2)
+
+    def perimeter(self):
+        return self.a + self.b + self.c
+
+
+class Square(Shape):
+    _title = 'Квадрат'
+
+    def __init__(self, a: int):
+        super().__init__()
+        self.a = a
+
+    @classmethod
+    def from_string(cls, string_of_sides):
+        a = map(int, string_of_sides.split(','))
+        square_1 = cls(a)
+        return square_1
+
+    def area(self):
+        return self.a ** 2
+
+    def perimeter(self):
+        return self.a * 4
+
+    def diagonal(self):
+        return sqrt(2 * self.a ** 2)
+
+
+class Rectangle(Square):
+    _title = "Прямоугольник"
+
+    def __init__(self, a: int, b: int):
+        super().__init__(b)
+        self.a = a
+        self.b = b
+
+    @classmethod
+    def from_string(cls, string_of_sides):
+        a, b = map(int, string_of_sides.split(','))
+        rectangle_1 = cls(a, b)
+        return rectangle_1
+
+    def area(self):
+        return self.a * self.b
+
+    def perimeter(self):
+        return (self.a + self.b) * 2
+
+    def diagonal(self):
+        return sqrt(self.a ** 2 + self.b ** 2)
+
+
+class Rhomb(Square):
+    _title = "Ромб"
+
+    def __init__(self, a: int, h: int):
+        super().__init__(a)
+        self.a = a
+        self.h = h
+
+    def area(self):
+        return self.a * self.height
+
+
+class Cube(Square):
+    _title = "Куб"
+
+    def __init__(self, a: int):
+        super().__init__(a)
+        self.a = a
+
+    def area(self):
+        return 6 * self.a ** 2
+
+    def volume(self):
+        return self.a ** 3
+
+    def diagonal(self):
+        return round((sqrt(3) * self.a), 2)
+
+
+class Circle(Shape):
+    _title = 'Окружность/Круг'
+
+    def __init__(self, a: int):
+        super().__init__()
+        self.a = a
+
+    def area(self):
+        return round((self.a ** 2) * pi, 2)
+
+    def perimeter(self):
+        return round(2 * self.a * pi, 2)
+
+
+class Cylinder(Circle):
+    _title = 'Цилиндр'
+
+    @staticmethod
+    def fake_volume(a, h):
+        return round(pi * (a ** 2) * h, 2)
+
+    def __init__(self, a: int, h: int):
+        super().__init__(h)
+        self.a = a
+        self.h = h
+
+    def area(self):
+        return round(2 * self.a * pi * self.h, 2)
+
+    def perimeter(self):
+        return round(4 * self.a * pi, 2)
+
+    def volume(self):
+        return round(pi * (self.a ** 2) * self.h, 2)
+
+
+# triangle = Triangle(2, 3, 4)
+# print(triangle._title)
+# print(triangle.area())
+# print(triangle.perimeter())
+#
+# square = Square(7)
+# print(square._title)
+# print(square.area())
+# print(square.perimeter())
+#
+# cube = Cube(10)
+# print(cube._title)
+# print(cube.area())
+# print(cube.volume())
+# print(cube.diagonal())
+
+# rectangle = Rectangle(2, 3)
+# print(rectangle._title)
+# print(rectangle.area())
+# print(rectangle.perimeter())
+rectangle_2 = Rectangle.from_string('15,20')
+print(rectangle_2._title)
+print(rectangle_2.area())
+print(rectangle_2.perimeter())
+print(rectangle_2.diagonal())
+
+# cylinder = Cylinder(10, 5)
+# print(cylinder._title)
+# print(cylinder.area())
+# print(cylinder.volume())
+# print(cylinder.fake_volume(5, 10))
+# print(cylinder.perimeter())
